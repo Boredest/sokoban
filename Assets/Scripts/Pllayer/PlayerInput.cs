@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour
 {
     private Vector2 direction = Vector2.down;
 
-    public Vector2 SetDirection()
+    public Vector2 InputDirection()
     {
         Vector2 direction = Vector2.zero;
         if (Input.GetKey(KeyCode.UpArrow))
