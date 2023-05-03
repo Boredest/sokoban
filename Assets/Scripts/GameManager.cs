@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
     private GameObject[] markerCount;
+    [SerializeField]
+    private GameObject Spawn;
     private bool levelOver;
 
     public int currentMarkerCount;
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
     public void NextScene()
     {
         levelOver = false;
-        //todo
+        
     }
 
     public void LevelOver()

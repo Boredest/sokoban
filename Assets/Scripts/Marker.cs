@@ -19,8 +19,7 @@ public class Marker : MonoBehaviour
     }
     private void Start()
     {
-       
-        triggered = false;
+      triggered = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,18 +31,22 @@ public class Marker : MonoBehaviour
             SpriteRenderer boxSprite = other.GetComponent<SpriteRenderer>();
             boxSprite.sprite = triggeredBoxSprite;
             GameManager.Instance.currentMarkerCount++;
-            Debug.Log("Markers =: " + GameManager.Instance.currentMarkerCount);
+            Debug.Log("Current Markers Triggered =: " + GameManager.Instance.currentMarkerCount);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("Testing remove trigger");
-        SpriteRenderer boxSprite = other.GetComponent<SpriteRenderer>();
-        triggered = false;
-        boxSprite.sprite = unTriggeredBoxSprite;
-        GameManager.Instance.currentMarkerCount--;
-        Debug.Log("Markers =: " + GameManager.Instance.currentMarkerCount);
+        if (other.gameObject.tag == "Box")
+        {
+            Debug.Log("Testing remove trigger");
+            SpriteRenderer boxSprite = other.GetComponent<SpriteRenderer>();
+            triggered = false;
+            boxSprite.sprite = unTriggeredBoxSprite;
+            GameManager.Instance.currentMarkerCount--;
+            Debug.Log("Current Markers Triggered =: " + GameManager.Instance.currentMarkerCount);
+        }
+        
 
     }
 }
