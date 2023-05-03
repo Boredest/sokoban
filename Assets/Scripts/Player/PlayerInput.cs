@@ -25,7 +25,9 @@ public class PlayerInput : MonoBehaviour
         {
             direction = Vector2.right;
         }
+
         return direction;
     }
+
 }
 

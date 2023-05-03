@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public new Rigidbody2D rigidbody { get; private set; }
     public float speed = 5f;
+    
    
     private void Awake()
     {
