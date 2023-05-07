@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField]
-    private GameObject playerPrefab;
+    private Tile wallTile;
     [SerializeField]
-    private GameObject boxPrefab;
+    private Tile boxTile;
     [SerializeField]
-    private GameObject markerPrefab;
+    private Tile floorTile;
     [SerializeField]
-    private GameObject wallPrefab;
-    [SerializeField]
-    private GameObject gameManagerPrefab;
+    private Tilemap tilemap;
 
     public bool useRandomSeed;
     public string seed;
@@ -54,9 +53,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if(x == 0 || x == width-1 || y==0 || y== height - 1)
+                
+                if(x == 0 || x == width-1 || y == 0 || y == height - 1)
                 {
+                    
                     map[x, y] = 1;
+                   
                 }
                 else
                 {
@@ -76,14 +78,14 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                Vector3 pos = new Vector3(-width / 2 + x + .5f, -height / 2 + y + .5f, 0);
+                Vector3Int pos = new Vector3Int(x - width / 2, y - height / 2, 0);
                 if (map[x, y] == 1)
                 {
-                    Instantiate(wallPrefab, pos, Quaternion.identity);
+                    tilemap.SetTile(pos, wallTile);
                 }
                 else
                 {
-                    Instantiate(boxPrefab, pos, Quaternion.identity);
+                    tilemap.SetTile(pos, floorTile);
                 }
 
             }
