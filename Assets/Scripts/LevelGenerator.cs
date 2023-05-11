@@ -44,10 +44,23 @@ public class LevelGenerator : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            GenerateLevel();
+        }
+    }
+
     public void GenerateLevel()
     {
         map = new int[width, height];
         RandomFillMap();
+
+        for(int i = 0; i < 3; i++)
+        {
+            SmoothLevel();
+        }
     }//GenerateLevel
 
     public void RandomFillMap()
@@ -67,7 +80,6 @@ public class LevelGenerator : MonoBehaviour
                 {
 
                     map[x, y] = 1;
-
                 }
                 else
                 {
@@ -77,6 +89,7 @@ public class LevelGenerator : MonoBehaviour
             }
         }
         FillLevel();
+        
 
 
     }//RandomFillMap
@@ -128,7 +141,21 @@ public class LevelGenerator : MonoBehaviour
 
     private void SmoothLevel()
     {
-
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                int neighbourWalls = GetSurroundingWallCount(x, y);
+                if(neighbourWalls > 4)
+                {
+                    map[x, y] = 1;
+                }
+                else if (neighbourWalls < 3)
+                {
+                    map[x, y] = 0;
+                }
+            }
+        }
     }
 
 
