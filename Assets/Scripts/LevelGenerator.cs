@@ -14,6 +14,15 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private Tilemap tilemap;
 
+    [SerializeField]
+    private GameObject boxes;
+    [SerializeField]
+    private GameObject Player;
+    [SerializeField]
+    private GameObject GameManager;
+
+
+
     public bool useRandomSeed;
     public string seed;
 
@@ -32,7 +41,7 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
         GenerateLevel();
-        
+
     }
 
     public void GenerateLevel()
@@ -53,18 +62,18 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                
-                if(x == 0 || x == width-1 || y == 0 || y == height - 1)
+
+                if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
                 {
-                    
+
                     map[x, y] = 1;
-                   
+
                 }
                 else
                 {
-                  map[x, y] = (prng.Next(0, 100) < randomFillPercent) ? 1 : 0;
+                    map[x, y] = (prng.Next(0, 100) < randomFillPercent) ? 1 : 0;
                 }
-                
+
             }
         }
         FillLevel();
@@ -92,10 +101,37 @@ public class LevelGenerator : MonoBehaviour
         }
     }//FillLevel
 
-    private void SmoothMap()
+    private int GetSurroundingWallCount(int gridX, int gridY)
+    {
+        int wallCount = 0;
+        for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
+        {
+            for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
+            {
+                if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height)
+                {
+
+                    if (neighbourX != gridX || neighbourY != gridY)
+                    {
+                        wallCount += map[neighbourX, neighbourY];
+                    }
+                    else
+                    {
+                        wallCount++;
+                    }
+                }
+            }
+        }
+        return wallCount;
+
+    }//GetSurroundingWallCount
+
+    private void SmoothLevel()
     {
 
-    }//Smooth map
+    }
 
-    
+
+
+
 }

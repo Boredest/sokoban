@@ -159,7 +159,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365326120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -240,9 +240,12 @@ MonoBehaviour:
   boxTile: {fileID: 11400000, guid: ff230ba8a6c09b246a9f45b94b7c4ea3, type: 2}
   floorTile: {fileID: 11400000, guid: 6c11b356403f3b84dbe63c04a891dbf6, type: 2}
   tilemap: {fileID: 1736862453}
+  boxes: {fileID: 1961970959734066888, guid: 67fe4c895c0b62247b641a6669b2ed07, type: 3}
+  Player: {fileID: 4294120663712497999, guid: c2d97c7f068f672478d8153afaf0cdeb, type: 3}
+  GameManager: {fileID: 3750629949110761690, guid: 620b5792f4e673f4bb8897f4198c20bb, type: 3}
   useRandomSeed: 0
-  seed: 
-  randomFillPercent: 25
+  seed: yay
+  randomFillPercent: 20
   width: 10
   height: 10
   wallProbability: 0
