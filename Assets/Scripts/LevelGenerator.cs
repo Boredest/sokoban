@@ -15,17 +15,23 @@ public class LevelGenerator : MonoBehaviour
     private Tilemap tilemap;
 
     [SerializeField]
-    private GameObject boxes;
+    private GameObject box;
     [SerializeField]
     private GameObject Player;
     [SerializeField]
     private GameObject GameManager;
 
+    [Range(0, 10)]
+    public int numofBoxes;
 
-
+    public int boxesSpawned;
+   
+   
+    
     public bool useRandomSeed;
     public string seed;
 
+    [Range(1, 70)]
     public int randomFillPercent;
 
 
@@ -38,9 +44,30 @@ public class LevelGenerator : MonoBehaviour
 
     int[,] map;
 
+    public int numRows = 10;
+    public int numCols = 10;
+    public float cellSize = 1f;
+
     private void Start()
     {
         GenerateLevel();
+
+        // Draw horizontal lines
+        /*for (int i = 0; i <= numRows; i++)
+        {
+            Vector3 start = new Vector3(-numCols / 2f, i * cellSize - numRows / 2f, 0f);
+            Vector3 end = new Vector3(numCols / 2f, i * cellSize - numRows / 2f, 0f);
+            Debug.DrawLine(start, end, Color.white, Mathf.Infinity);
+        }
+
+        // Draw vertical lines
+        for (int i = 0; i <= numCols; i++)
+        {
+            Vector3 start = new Vector3(i * cellSize - numCols / 2f, -numRows / 2f, 0f);
+            Vector3 end = new Vector3(i * cellSize - numCols / 2f, numRows / 2f, 0f);
+            Debug.DrawLine(start, end, Color.white, Mathf.Infinity);
+        }*/
+
 
     }
 
@@ -48,6 +75,7 @@ public class LevelGenerator : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            
             GenerateLevel();
         }
     }
@@ -56,8 +84,9 @@ public class LevelGenerator : MonoBehaviour
     {
         map = new int[width, height];
         RandomFillMap();
+        Debug.Log("Num of Boxes " + numofBoxes);
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             SmoothLevel();
         }
@@ -75,10 +104,9 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-
+                //Ensure level will be closed in with walls
                 if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
                 {
-
                     map[x, y] = 1;
                 }
                 else
@@ -96,18 +124,31 @@ public class LevelGenerator : MonoBehaviour
 
     public void FillLevel()
     {
+        
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 Vector3Int pos = new Vector3Int(x - width / 2, y - height / 2, 0);
+
+              
                 if (map[x, y] == 1)
                 {
                     tilemap.SetTile(pos, wallTile);
                 }
                 else
                 {
+                    
+                    if(GetSurroundingWallCount(x,y) < 4 && boxesSpawned < numofBoxes)
+                    {
+                        Vector3 boxPos = new Vector3(pos.x , pos.y, 0);
+                        Instantiate(box, boxPos, Quaternion.identity);
+                        Debug.Log(" X " + x + " Y " + y);
+                        boxesSpawned++;
+                        Debug.Log("Wall Count: " + GetSurroundingWallCount(x, y));
+                    }
                     tilemap.SetTile(pos, floorTile);
+                   
                 }
 
             }
@@ -135,6 +176,7 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
         }
+        
         return wallCount;
 
     }//GetSurroundingWallCount
@@ -157,6 +199,19 @@ public class LevelGenerator : MonoBehaviour
             }
         }
     }
+
+    private void ResetLevel()
+    {
+        numofBoxes = 0;
+        boxesSpawned = 0;
+        GameObject[] boxes = GameObject.FindGameObjectsWithTag("Box");
+        foreach (GameObject box in boxes)
+        {
+            Destroy(box);
+        }
+
+
+    }//ResetLevel
 
 
 
