@@ -44,30 +44,10 @@ public class LevelGenerator : MonoBehaviour
 
     int[,] map;
 
-    public int numRows = 10;
-    public int numCols = 10;
-    public float cellSize = 1f;
-
+    
     private void Start()
     {
         GenerateLevel();
-
-        // Draw horizontal lines
-        /*for (int i = 0; i <= numRows; i++)
-        {
-            Vector3 start = new Vector3(-numCols / 2f, i * cellSize - numRows / 2f, 0f);
-            Vector3 end = new Vector3(numCols / 2f, i * cellSize - numRows / 2f, 0f);
-            Debug.DrawLine(start, end, Color.white, Mathf.Infinity);
-        }
-
-        // Draw vertical lines
-        for (int i = 0; i <= numCols; i++)
-        {
-            Vector3 start = new Vector3(i * cellSize - numCols / 2f, -numRows / 2f, 0f);
-            Vector3 end = new Vector3(i * cellSize - numCols / 2f, numRows / 2f, 0f);
-            Debug.DrawLine(start, end, Color.white, Mathf.Infinity);
-        }*/
-
 
     }
 

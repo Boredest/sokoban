@@ -243,7 +243,7 @@ MonoBehaviour:
   box: {fileID: 1961970959734066888, guid: 67fe4c895c0b62247b641a6669b2ed07, type: 3}
   Player: {fileID: 4294120663712497999, guid: c2d97c7f068f672478d8153afaf0cdeb, type: 3}
   GameManager: {fileID: 3750629949110761690, guid: 620b5792f4e673f4bb8897f4198c20bb, type: 3}
-  numofBoxes: 1
+  numofBoxes: 2
   boxesSpawned: 0
   useRandomSeed: 0
   seed: 7
