@@ -25,9 +25,9 @@ public class LevelGenerator : MonoBehaviour
     public int numofBoxes;
 
     public int boxesSpawned;
-   
-   
-    
+
+
+
     public bool useRandomSeed;
     public string seed;
 
@@ -37,14 +37,13 @@ public class LevelGenerator : MonoBehaviour
 
     public int width;
     public int height;
-
-    public float wallProbability;
+    Vector3Int testGrid = new Vector3Int(1, 3, 0);
 
     public int smoothingIterations;
 
     int[,] map;
 
-    
+
     private void Start()
     {
         GenerateLevel();
@@ -55,9 +54,25 @@ public class LevelGenerator : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            
             GenerateLevel();
         }
+
+
+        if (Input.GetMouseButtonDown(1))
+        {
+
+            Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int location = tilemap.WorldToCell(mp);
+
+            if (tilemap.GetTile(location))
+            {
+                Debug.Log("Tile");
+            }
+
+
+        }
+
+
     }
 
     public void GenerateLevel()
@@ -66,9 +81,9 @@ public class LevelGenerator : MonoBehaviour
         RandomFillMap();
         Debug.Log("Num of Boxes " + numofBoxes);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < smoothingIterations; i++)
         {
-            SmoothLevel();
+           SmoothLevel();
         }
     }//GenerateLevel
 
@@ -97,38 +112,38 @@ public class LevelGenerator : MonoBehaviour
             }
         }
         FillLevel();
-        
+
 
 
     }//RandomFillMap
 
     public void FillLevel()
     {
-        
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 Vector3Int pos = new Vector3Int(x - width / 2, y - height / 2, 0);
 
-              
+
                 if (map[x, y] == 1)
                 {
                     tilemap.SetTile(pos, wallTile);
                 }
                 else
                 {
-                    
-                    if(GetSurroundingWallCount(x,y) < 4 && boxesSpawned < numofBoxes)
+                    tilemap.SetTile(pos, floorTile);
+                    if (boxesSpawned < numofBoxes)
                     {
-                        Vector3 boxPos = new Vector3(pos.x , pos.y, 0);
+                        Vector3 boxPos = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
                         Instantiate(box, boxPos, Quaternion.identity);
-                        Debug.Log(" X " + x + " Y " + y);
                         boxesSpawned++;
                         Debug.Log("Wall Count: " + GetSurroundingWallCount(x, y));
                     }
-                    tilemap.SetTile(pos, floorTile);
-                   
+
+
+
                 }
 
             }
@@ -138,28 +153,34 @@ public class LevelGenerator : MonoBehaviour
     private int GetSurroundingWallCount(int gridX, int gridY)
     {
         int wallCount = 0;
-        for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
-        {
-            for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
-            {
-                if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height)
-                {
+        
 
-                    if (neighbourX != gridX || neighbourY != gridY)
+        for (int negibourX = gridX - 1; negibourX <= gridX + 1; negibourX++)
+        {
+            for (int negibourY = gridY - 1; negibourY <= gridY + 1; negibourY++)
+            {
+                if (negibourX >= 0 && negibourX < width && negibourY >= 0 && negibourY < height)
+                {
+                    if (negibourX != gridX || negibourY != gridY)
                     {
-                        wallCount += map[neighbourX, neighbourY];
-                    }
-                    else
-                    {
-                        wallCount++;
+                        wallCount += map[negibourX, negibourY];
+                        
                     }
                 }
+
+                else
+                {
+                    wallCount++;
+                }
+
+
             }
         }
-        
-        return wallCount;
 
-    }//GetSurroundingWallCount
+        return wallCount;
+    }
+
+
 
     private void SmoothLevel()
     {
@@ -168,7 +189,8 @@ public class LevelGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 int neighbourWalls = GetSurroundingWallCount(x, y);
-                if(neighbourWalls > 4)
+                Debug.Log("Neighbour Walls " + neighbourWalls);
+                if (neighbourWalls > 4)
                 {
                     map[x, y] = 1;
                 }
@@ -192,8 +214,5 @@ public class LevelGenerator : MonoBehaviour
 
 
     }//ResetLevel
-
-
-
 
 }
