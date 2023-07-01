@@ -245,13 +245,12 @@ MonoBehaviour:
   GameManager: {fileID: 3750629949110761690, guid: 620b5792f4e673f4bb8897f4198c20bb, type: 3}
   numofBoxes: 1
   boxesSpawned: 0
-  useRandomSeed: 0
-  seed: 56
-  randomFillPercent: 34
+  useRandomSeed: 1
+  seed: 
+  randomFillPercent: 35
   width: 10
   height: 10
-  wallProbability: 0
-  smoothingIterations: 0
+  smoothingIterations: 1
 --- !u!4 &860610907
 Transform:
   m_ObjectHideFlags: 0

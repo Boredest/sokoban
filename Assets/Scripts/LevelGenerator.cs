@@ -37,8 +37,7 @@ public class LevelGenerator : MonoBehaviour
 
     public int width;
     public int height;
-    Vector3Int testGrid = new Vector3Int(1, 3, 0);
-
+    
     public int smoothingIterations;
 
     int[,] map;
@@ -47,7 +46,6 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
         GenerateLevel();
-
     }
 
     private void Update()
@@ -85,6 +83,8 @@ public class LevelGenerator : MonoBehaviour
         {
            SmoothLevel();
         }
+
+        FillLevel();
     }//GenerateLevel
 
     public void RandomFillMap()
@@ -111,15 +111,11 @@ public class LevelGenerator : MonoBehaviour
 
             }
         }
-        FillLevel();
-
-
-
+      
     }//RandomFillMap
 
     public void FillLevel()
     {
-
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -137,7 +133,7 @@ public class LevelGenerator : MonoBehaviour
                     if (boxesSpawned < numofBoxes)
                     {
                         Vector3 boxPos = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
-                        Instantiate(box, boxPos, Quaternion.identity);
+                       // Instantiate(box, boxPos, Quaternion.identity);
                         boxesSpawned++;
                         Debug.Log("Wall Count: " + GetSurroundingWallCount(x, y));
                     }
@@ -189,8 +185,8 @@ public class LevelGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 int neighbourWalls = GetSurroundingWallCount(x, y);
-                Debug.Log("Neighbour Walls " + neighbourWalls);
-                if (neighbourWalls > 4)
+                
+                if (neighbourWalls >= 7)
                 {
                     map[x, y] = 1;
                 }
