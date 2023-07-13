@@ -31,7 +31,7 @@ public class LevelGenerator : MonoBehaviour
     public bool useRandomSeed;
     public string seed;
 
-    [Range(1, 70)]
+    [Range(10, 55)]
     public int randomFillPercent;
 
 
@@ -52,10 +52,12 @@ public class LevelGenerator : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            //Old tiles need to be cleared if width and height are changed.
+            tilemap.ClearAllTiles();
             GenerateLevel();
         }
 
-
+        //Debugging Grid
         if (Input.GetMouseButtonDown(1))
         {
 
@@ -64,10 +66,8 @@ public class LevelGenerator : MonoBehaviour
 
             if (tilemap.GetTile(location))
             {
-                Debug.Log("Tile");
+                Debug.Log("Tile: " + tilemap.GetTile(location));
             }
-
-
         }
 
 
@@ -85,6 +85,8 @@ public class LevelGenerator : MonoBehaviour
         }
 
         FillLevel();
+        
+        
     }//GenerateLevel
 
     public void RandomFillMap()
@@ -108,7 +110,6 @@ public class LevelGenerator : MonoBehaviour
                 {
                     map[x, y] = (prng.Next(0, 100) < randomFillPercent) ? 1 : 0;
                 }
-
             }
         }
       
@@ -122,7 +123,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 Vector3Int pos = new Vector3Int(x - width / 2, y - height / 2, 0);
 
-
+                //Place walls, floors
                 if (map[x, y] == 1)
                 {
                     tilemap.SetTile(pos, wallTile);
@@ -130,18 +131,8 @@ public class LevelGenerator : MonoBehaviour
                 else
                 {
                     tilemap.SetTile(pos, floorTile);
-                    if (boxesSpawned < numofBoxes)
-                    {
-                        Vector3 boxPos = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
-                       // Instantiate(box, boxPos, Quaternion.identity);
-                        boxesSpawned++;
-                        Debug.Log("Wall Count: " + GetSurroundingWallCount(x, y));
-                    }
-
-
-
+                   
                 }
-
             }
         }
     }//FillLevel
@@ -194,6 +185,7 @@ public class LevelGenerator : MonoBehaviour
                 {
                     map[x, y] = 0;
                 }
+                
             }
         }
     }
